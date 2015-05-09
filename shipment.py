@@ -14,11 +14,11 @@ class ShipmentOut:
     __name__ = 'stock.shipment.out'
 
     @classmethod
-    def picking_before(cls):
+    def picking_before(cls, shipment):
         return
 
     @classmethod
-    def picking_after(cls):
+    def picking_after(cls, shipment):
         return
 
 
