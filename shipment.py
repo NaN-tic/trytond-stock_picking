@@ -84,7 +84,7 @@ class ShipmentOutPacked(Wizard):
         shipment = self.picking.shipment
         lines = self.picking.lines
 
-        shipment.picking_before()
+        shipment.picking_before(shipment)
 
         outgoing_moves = {}
         for move in shipment.outgoing_moves:
