@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!-- This file is part stock_picking module for Tryton.
+The COPYRIGHT file at the top level of this repository contains the full copyright notices and license terms. -->
+<form string="Shipment Out Picking">
+    <label name="shipment"/>
+    <field name="shipment"/>
+    <newline/>
+    <field name="lines" colspan="6"/>
+</form>

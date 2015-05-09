@@ -1,0 +1,105 @@
+# 
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "error:stock.shipment.out.packed:"
+msgid "Does not match the quantity. Qty \"%(product)s\" is \"%(quantity)s\""
+msgstr ""
+"No coincideix la quantitat. La quantitat de \"%(product)s\" és "
+"\"%(quantity)s\""
+
+msgctxt "error:stock.shipment.out.packed:"
+msgid "Missing product \"%(product)s\" in shipment"
+msgstr "Falten els productes \"%(product)s\" en l'albarà"
+
+msgctxt "field:stock.shipment.out.picking,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:stock.shipment.out.picking,lines:"
+msgid "Lines"
+msgstr "Línies"
+
+msgctxt "field:stock.shipment.out.picking,shipment:"
+msgid "Shipment"
+msgstr "Albarà"
+
+msgctxt "field:stock.shipment.out.picking.line,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:stock.shipment.out.picking.line,product:"
+msgid "Product"
+msgstr "Producte"
+
+msgctxt "field:stock.shipment.out.picking.line,quantity:"
+msgid "Quantity"
+msgstr "Quantitat"
+
+msgctxt "field:stock.shipment.out.picking.result,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:stock.shipment.out.picking.result,note:"
+msgid "Note"
+msgstr "Nota"
+
+msgctxt "field:stock.shipment.out.picking.result,shipment:"
+msgid "Shipment"
+msgstr "Albarà"
+
+msgctxt "help:stock.shipment.out.picking,shipment:"
+msgid "Shipment Assigned state"
+msgstr "L'estat de l'albarà ha de ser reservat"
+
+msgctxt "model:ir.action,name:act_stock_shipment_out_picking"
+msgid "Stock Shipment Out Picking"
+msgstr "Empaquetament albarà de client"
+
+msgctxt "model:ir.ui.menu,name:menu_stock_shipment_out_picking"
+msgid "Picking"
+msgstr "Empaquetar"
+
+msgctxt "model:stock.shipment.out.picking,name:"
+msgid "Shipment Out Picking"
+msgstr "Empaquetament albarà de client"
+
+msgctxt "model:stock.shipment.out.picking.line,name:"
+msgid "Shipment Out Picking Line"
+msgstr "Linies empaquetament albará de client"
+
+msgctxt "model:stock.shipment.out.picking.result,name:"
+msgid "Shipment Out Picking Result"
+msgstr "Resultat empaquetament albará de client"
+
+msgctxt "view:stock.shipment.out.picking.line:"
+msgid "Shipment Out Picking"
+msgstr "Empaquetament albarà de client"
+
+msgctxt "view:stock.shipment.out.picking.result:"
+msgid "Shipment Out Picking Result"
+msgstr "Resultat de l'empaquetament de l'albarà de client"
+
+msgctxt "view:stock.shipment.out.picking.result:"
+msgid "Successfully packed shipment"
+msgstr "S'ha empaquetat l'albarà"
+
+msgctxt "view:stock.shipment.out.picking:"
+msgid "Shipment Out Picking"
+msgstr "Empaquetament albará de client"
+
+msgctxt "wizard_button:stock.shipment.out.packed,picking,end:"
+msgid "Cancel"
+msgstr "Cancel·la"
+
+msgctxt "wizard_button:stock.shipment.out.packed,picking,packed:"
+msgid "Picking"
+msgstr "Empaquetament"
+
+msgctxt "wizard_button:stock.shipment.out.packed,result,end:"
+msgid "Done"
+msgstr "Finalitzat"
+
+msgctxt "wizard_button:stock.shipment.out.packed,result,picking:"
+msgid "New picking"
+msgstr "Nou empaquetament"
