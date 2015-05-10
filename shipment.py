@@ -34,7 +34,7 @@ class ShipmentOutPicking(ModelView):
 class ShipmentOutPickingLine(ModelView):
     'Shipment Out Picking Line'
     __name__ = 'stock.shipment.out.picking.line'
-    product = fields.Many2One('product.product', 'Product', required=True)
+    product = fields.Many2One('product.product', 'Product')
     quantity = fields.Float('Quantity', digits=(16, 2))
 
     @staticmethod
@@ -95,6 +95,8 @@ class ShipmentOutPacked(Wizard):
 
         picking_moves = {}
         for line in lines:
+            if not line.product:
+                continue
             if line.product.id in picking_moves:
                 picking_moves[line.product.id] = line.quantity + picking_moves[line.product.id]
             else:
