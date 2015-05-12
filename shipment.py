@@ -128,10 +128,8 @@ class ShipmentOutPacked(Wizard):
 
         # Change new state: assigned to packed
         Shipment.pack([shipment])
-        Shipment.done([shipment])
-
-        # Post actions
         note = Shipment.picking_after(shipment)
+        Shipment.done([shipment])
 
         self.result.shipment = shipment
         self.result.note = note
