@@ -12,6 +12,10 @@ msgctxt "error:stock.shipment.out.packed:"
 msgid "Missing product \"%(product)s\" in shipment"
 msgstr "Falten els productes \"%(product)s\" en l'albarà"
 
+msgctxt "error:stock.shipment.out.packed:"
+msgid "Unknown error. Try again to picking the shipment"
+msgstr "Error desconegut. Intenta de nou empaqueta l'albarà"
+
 msgctxt "field:stock.shipment.out.picking,id:"
 msgid "ID"
 msgstr "ID"

@@ -10,6 +10,10 @@ msgctxt "error:stock.shipment.out.packed:"
 msgid "Missing product \"%(product)s\" in shipment"
 msgstr "Faltan los productos \"%(product)s\" en el albarán"
 
+msgctxt "error:stock.shipment.out.packed:"
+msgid "Unknown error. Try again to picking the shipment"
+msgstr "Error desconocido. Intente de nuevo empaquetar el albarán"
+
 msgctxt "field:stock.shipment.out.picking,id:"
 msgid "ID"
 msgstr "ID"
