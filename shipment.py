@@ -72,6 +72,7 @@ class ShipmentOutPacked(Wizard):
             'not_product': 'Missing product "%(product)s" in shipment',
             'not_quantity': 'Does not match the quantity. Qty "%(product)s" '
                 'is "%(quantity)s"',
+            'unknow_error': 'Unknown error. Try again to picking the shipment',
         })
 
     def transition_start(self):
@@ -103,20 +104,27 @@ class ShipmentOutPacked(Wizard):
                 picking_moves[line.product.id] = line.quantity
 
         # check if product is in shipment and quantity
+        unknow_error = False
         for k, v in outgoing_moves.iteritems():
             if not k in picking_moves:
-                product, = [move.product.rec_name for move in shipment.outgoing_moves 
+                product = [move.product.rec_name for move in shipment.outgoing_moves 
                     if move.product.id == k]
+                if not product:
+                    unknow_error = True
                 self.raise_user_error('not_product', {
                         'product': product,
                         })
             if not v == picking_moves[k]:
-                product, = [move.product.rec_name for move in shipment.outgoing_moves 
+                product = [move.product.rec_name for move in shipment.outgoing_moves 
                     if move.product.id == k]
+                if not product:
+                    unknow_error = True
                 self.raise_user_error('not_quantity', {
                         'product': product,
                         'quantity': v,
                         })
+        if unknow_error:
+            self.raise_user_error('unknow_error')
 
         # Change new state: assigned to packed
         Shipment.pack([shipment])
