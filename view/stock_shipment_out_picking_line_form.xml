@@ -6,4 +6,6 @@ The COPYRIGHT file at the top level of this repository contains the full copyrig
     <field name="product"/>
     <label name="quantity"/>
     <field name="quantity"/>
+    <field name="shipment"/>
+    <field name="product_domain"/>
 </form>

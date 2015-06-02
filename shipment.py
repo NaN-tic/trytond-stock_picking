@@ -4,6 +4,8 @@
 from trytond.model import ModelView, fields
 from trytond.wizard import Wizard, StateTransition, StateView, Button
 from trytond.pool import Pool, PoolMeta
+from trytond.pyson import Eval
+
 
 __all__ = ['ShipmentOut', 'ShipmentOutPicking', 'ShipmentOutPickingLine',
     'ShipmentOutPickingResult', 'ShipmentOutPacked']
@@ -28,14 +30,25 @@ class ShipmentOutPicking(ModelView):
     shipment = fields.Many2One('stock.shipment.out', 'Shipment', required=True,
         domain=[('state', '=', 'assigned')],
         help="Shipment Assigned state")
-    lines = fields.One2Many('stock.shipment.out.picking.line', None, 'Lines')
+    lines = fields.One2Many('stock.shipment.out.picking.line', 'shipment',
+        'Lines')
 
 
 class ShipmentOutPickingLine(ModelView):
     'Shipment Out Picking Line'
     __name__ = 'stock.shipment.out.picking.line'
-    product = fields.Many2One('product.product', 'Product')
+    shipment = fields.Many2One('stock.shipment.out.picking', 'Shipment Out',
+        required=True)
+    product_domain = fields.Function(fields.One2Many('product.product', None,
+            'Product Domain'), 'on_change_with_product_domain')
+    product = fields.Many2One('product.product', 'Product',
+        domain=[('id', 'in', Eval('product_domain'))],
+        depends=['product_domain'])
     quantity = fields.Float('Quantity', digits=(16, 2))
+
+    @fields.depends('shipment')
+    def on_change_with_product_domain(self, name=None):
+        return [m.product.id for m in self.shipment.shipment.moves]
 
     @staticmethod
     def default_quantity():

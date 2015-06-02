@@ -4,4 +4,6 @@ The COPYRIGHT file at the top level of this repository contains the full copyrig
 <tree string="Shipment Out Picking" editable="bottom">
     <field name="product"/>
     <field name="quantity"/>
+    <field name="shipment"/>
+    <field name="product_domain"/>
 </tree>
