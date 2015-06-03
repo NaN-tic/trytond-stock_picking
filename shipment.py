@@ -28,6 +28,9 @@ class ShipmentOutPicking(ModelView):
     'Shipment Out Picking'
     __name__ = 'stock.shipment.out.picking'
     shipment = fields.Many2One('stock.shipment.out', 'Shipment', required=True,
+        states={
+            'readonly': (Eval('lines', [0]) & Eval('shipment')),
+            },
         domain=[('state', '=', 'assigned')],
         help="Shipment Assigned state")
     lines = fields.One2Many('stock.shipment.out.picking.line', 'shipment',
