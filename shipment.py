@@ -120,19 +120,19 @@ class ShipmentOutPacked(Wizard):
         unknow_error = False
         for k, v in outgoing_moves.iteritems():
             if not k in picking_moves:
-                product = [move.product.rec_name for move in shipment.outgoing_moves 
+                products = [move.product.rec_name for move in shipment.outgoing_moves 
                     if move.product.id == k]
-                if product:
+                if products:
                     self.raise_user_error('not_product', {
-                            'product': product,
+                            'product': products[0],
                             })
                 unknow_error = True
             if not v == picking_moves[k]:
-                product = [move.product.rec_name for move in shipment.outgoing_moves 
+                products = [move.product.rec_name for move in shipment.outgoing_moves 
                     if move.product.id == k]
-                if product:
+                if products:
                     self.raise_user_error('not_quantity', {
-                            'product': product,
+                            'product': products[0],
                             'quantity': v,
                             })
                 unknow_error = True
