@@ -60,7 +60,7 @@ msgstr "Empaquetado albarán cliente"
 
 msgctxt "model:ir.ui.menu,name:menu_stock_shipment_out_picking"
 msgid "Picking"
-msgstr "Empaqueta"
+msgstr "Empaquetar"
 
 msgctxt "model:stock.shipment.out.picking,name:"
 msgid "Shipment Out Picking"
