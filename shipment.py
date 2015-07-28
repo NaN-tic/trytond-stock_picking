@@ -144,15 +144,13 @@ class ShipmentOutPacked(Wizard):
 
         # Change new state: assigned to packed
         Shipment.pack([shipment])
-        note = Shipment.picking_after(shipment)
+        Shipment.picking_after(shipment)
         Shipment.done([shipment])
 
         self.result.shipment = shipment
-        self.result.note = note
         return 'result'
 
     def default_result(self, fields):
         return {
             'shipment': self.result.shipment.id,
-            'note': self.result.note,
             }
