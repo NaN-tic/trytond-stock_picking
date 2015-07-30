@@ -4,6 +4,7 @@
 from trytond.model import ModelView, fields
 from trytond.wizard import Wizard, StateTransition, StateView, Button
 from trytond.pool import Pool, PoolMeta
+from trytond.transaction import Transaction
 from trytond.pyson import Eval
 
 
@@ -149,6 +150,18 @@ class ShipmentOutPacked(Wizard):
 
         self.result.shipment = shipment
         return 'result'
+
+    def default_picking(self, fields):
+        Shipment = Pool().get('stock.shipment.out')
+
+        if Transaction().context.get('active_id') and \
+                Transaction().context.get('active_model') == 'stock.shipment.out':
+            shipment = Shipment(Transaction().context['active_id'])
+            if shipment.state == 'assigned':
+                return {
+                    'shipment': shipment.id,
+                    }
+        return {}
 
     def default_result(self, fields):
         return {

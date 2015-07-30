@@ -27,7 +27,7 @@ The COPYRIGHT file at the top level of this repository contains the full copyrig
         </record>
 
         <record model="ir.action.wizard" id="act_stock_shipment_out_picking">
-            <field name="name">Stock Shipment Out Picking</field>
+            <field name="name">Picking</field>
             <field name="wiz_name">stock.shipment.out.packed</field>
         </record>
         <menuitem
@@ -36,5 +36,12 @@ The COPYRIGHT file at the top level of this repository contains the full copyrig
             action="act_stock_shipment_out_picking"
             id="menu_stock_shipment_out_picking"
             sequence="50"/>
+
+        <!-- Stock Shipment Out -->
+        <record model="ir.action.keyword" id="stock_shipment_out_packed_keyword">
+            <field name="keyword">form_action</field>
+            <field name="model">stock.shipment.out,-1</field>
+            <field name="action" ref="act_stock_shipment_out_picking"/>
+        </record>
     </data>
 </tryton>
