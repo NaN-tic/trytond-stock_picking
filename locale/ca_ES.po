@@ -36,9 +36,17 @@ msgctxt "field:stock.shipment.out.picking.line,product:"
 msgid "Product"
 msgstr "Producte"
 
+msgctxt "field:stock.shipment.out.picking.line,product_domain:"
+msgid "Product Domain"
+msgstr "Domini producte"
+
 msgctxt "field:stock.shipment.out.picking.line,quantity:"
 msgid "Quantity"
 msgstr "Quantitat"
+
+msgctxt "field:stock.shipment.out.picking.line,shipment:"
+msgid "Shipment Out"
+msgstr "Albarà client"
 
 msgctxt "field:stock.shipment.out.picking.result,id:"
 msgid "ID"
@@ -57,8 +65,8 @@ msgid "Shipment Assigned state"
 msgstr "L'estat de l'albarà ha de ser reservat"
 
 msgctxt "model:ir.action,name:act_stock_shipment_out_picking"
-msgid "Stock Shipment Out Picking"
-msgstr "Empaquetament albarà de client"
+msgid "Picking"
+msgstr "Empaquetament"
 
 msgctxt "model:ir.ui.menu,name:menu_stock_shipment_out_picking"
 msgid "Picking"
