@@ -52,6 +52,8 @@ class ShipmentOutPickingLine(ModelView):
 
     @fields.depends('shipment')
     def on_change_with_product_domain(self, name=None):
+        if not self.shipment or not self.shipment.shipment:
+            return []
         return [m.product.id for m in self.shipment.shipment.moves]
 
     @staticmethod
