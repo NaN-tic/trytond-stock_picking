@@ -36,6 +36,11 @@ class ShipmentOutPicking(ModelView):
         help="Shipment Assigned state")
     lines = fields.One2Many('stock.shipment.out.picking.line', 'shipment',
         'Lines')
+    number_packages = fields.Integer('Number of Packages')
+
+    @staticmethod
+    def default_number_packages():
+        return 1
 
 
 class ShipmentOutPickingLine(ModelView):
@@ -97,6 +102,12 @@ class ShipmentOutPacked(Wizard):
     def transition_start(self):
         return 'picking'
 
+    @classmethod
+    def _shipment_data(cls, shipment, values={}):
+        for k, v in values.iteritems():
+            setattr(shipment, k,  v)
+        return shipment
+
     def transition_packed(self):
         pool = Pool()
         Shipment = pool.get('stock.shipment.out')
@@ -144,6 +155,11 @@ class ShipmentOutPacked(Wizard):
                 unknow_error = True
         if unknow_error:
             self.raise_user_error('unknow_error')
+
+        shipment = self._shipment_data(shipment, {
+            'number_packages': self.picking.number_packages or 1,
+            })
+        shipment.save()
 
         # Change new state: assigned to packed
         Shipment.pack([shipment])
