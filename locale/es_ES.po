@@ -1,4 +1,4 @@
-# 
+#
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
@@ -21,6 +21,10 @@ msgstr "ID"
 msgctxt "field:stock.shipment.out.picking,lines:"
 msgid "Lines"
 msgstr "Líneas"
+
+msgctxt "field:stock.shipment.out.picking,number_packages:"
+msgid "Number of Packages"
+msgstr "Número paquetes"
 
 msgctxt "field:stock.shipment.out.picking,shipment:"
 msgid "Shipment"
