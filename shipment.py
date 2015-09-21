@@ -16,12 +16,10 @@ __metaclass__ = PoolMeta
 class ShipmentOut:
     __name__ = 'stock.shipment.out'
 
-    @classmethod
-    def picking_before(cls, shipment):
+    def picking_before(self):
         return
 
-    @classmethod
-    def picking_after(cls, shipment):
+    def picking_after(self):
         return
 
 
@@ -115,7 +113,7 @@ class ShipmentOutPacked(Wizard):
         shipment = self.picking.shipment
         lines = self.picking.lines
 
-        shipment.picking_before(shipment)
+        shipment.picking_before()
 
         outgoing_moves = {}
         for move in shipment.outgoing_moves:
@@ -163,7 +161,7 @@ class ShipmentOutPacked(Wizard):
 
         # Change new state: assigned to packed
         Shipment.pack([shipment])
-        Shipment.picking_after(shipment)
+        shipment.picking_after()
         Shipment.done([shipment])
 
         self.result.shipment = shipment
