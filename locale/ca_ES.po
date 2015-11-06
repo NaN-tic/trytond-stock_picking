@@ -24,6 +24,10 @@ msgctxt "field:stock.shipment.out.picking,lines:"
 msgid "Lines"
 msgstr "Línies"
 
+msgctxt "field:stock.shipment.out.picking,note:"
+msgid "Note"
+msgstr "Nota"
+
 msgctxt "field:stock.shipment.out.picking,number_packages:"
 msgid "Number of Packages"
 msgstr "Número paquets"
@@ -69,12 +73,12 @@ msgid "Shipment Assigned state"
 msgstr "L'estat de l'albarà ha de ser reservat"
 
 msgctxt "model:ir.action,name:act_stock_shipment_out_picking"
-msgid "Picking"
-msgstr "Empaquetament"
+msgid "Done Picking"
+msgstr "Finalitza empaquetament"
 
 msgctxt "model:ir.ui.menu,name:menu_stock_shipment_out_picking"
-msgid "Picking"
-msgstr "Empaqueta"
+msgid "Done Picking"
+msgstr "Finalitzar empaquetament"
 
 msgctxt "model:stock.shipment.out.picking,name:"
 msgid "Shipment Out Picking"
@@ -101,8 +105,16 @@ msgid "Successfully packed shipment"
 msgstr "S'ha empaquetat l'albarà"
 
 msgctxt "view:stock.shipment.out.picking:"
-msgid "Shipment Out Picking"
-msgstr "Empaquetament albará de client"
+msgid "Done Picking Shipment Out"
+msgstr "Finalitzar empaquetament albarans de client"
+
+msgctxt "view:stock.shipment.out.picking:"
+msgid "Notes"
+msgstr "Notes"
+
+msgctxt "view:stock.shipment.out.picking:"
+msgid "Products"
+msgstr "Productes"
 
 msgctxt "wizard_button:stock.shipment.out.packed,picking,end:"
 msgid "Cancel"

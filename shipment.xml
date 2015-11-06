@@ -27,11 +27,11 @@ The COPYRIGHT file at the top level of this repository contains the full copyrig
         </record>
 
         <record model="ir.action.wizard" id="act_stock_shipment_out_picking">
-            <field name="name">Picking</field>
+            <field name="name">Done Picking</field>
             <field name="wiz_name">stock.shipment.out.packed</field>
         </record>
         <menuitem
-            name="Picking" 
+            name="Done Picking" 
             parent="stock.menu_shipment_out_form"
             action="act_stock_shipment_out_picking"
             id="menu_stock_shipment_out_picking"
