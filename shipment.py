@@ -37,10 +37,23 @@ class ShipmentOutPicking(ModelView):
     lines = fields.One2Many('stock.shipment.out.picking.line', 'shipment',
         'Lines')
     number_packages = fields.Integer('Number of Packages')
+    note = fields.Text('Note', readonly=True)
 
     @staticmethod
     def default_number_packages():
         return 1
+
+    @fields.depends('shipment')
+    def on_change_shipment(self, name=None):
+        changes = {}
+        notes = []
+        if self.shipment:
+            if hasattr(self.shipment, 'comment'):
+                notes.append(self.shipment.comment)
+            if hasattr(self.shipment, 'carrier_notes'):
+                notes.append(self.shipment.carrier_notes)
+        changes['note'] = '\n'.join(notes)
+        return changes
 
 
 class ShipmentOutPickingLine(ModelView):
@@ -166,6 +179,10 @@ class ShipmentOutPacked(Wizard):
         Shipment.picking_after(shipment)
         Shipment.done([shipment])
 
+        note = None
+        if hasattr(shipment, 'carrier_notes'):
+            note = '%s\n' % shipment.carrier_notes
+        self.result.note = note
         self.result.shipment = shipment
         return 'result'
 
@@ -184,4 +201,5 @@ class ShipmentOutPacked(Wizard):
     def default_result(self, fields):
         return {
             'shipment': self.result.shipment.id,
+            'note': self.result.note,
             }
