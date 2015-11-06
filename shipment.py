@@ -48,9 +48,9 @@ class ShipmentOutPicking(ModelView):
         changes = {}
         notes = []
         if self.shipment:
-            if hasattr(self.shipment, 'comment'):
+            if hasattr(self.shipment, 'comment') and self.shipment.comment:
                 notes.append(self.shipment.comment)
-            if hasattr(self.shipment, 'carrier_notes'):
+            if hasattr(self.shipment, 'carrier_notes') and self.shipment.carrier_notes:
                 notes.append(self.shipment.carrier_notes)
         changes['note'] = '\n'.join(notes)
         return changes
