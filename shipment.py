@@ -43,15 +43,20 @@ class ShipmentOutPicking(ModelView):
 
     @fields.depends('shipment')
     def on_change_shipment(self, name=None):
-        changes = {}
         notes = []
         if self.shipment:
-            if hasattr(self.shipment, 'comment'):
+            if hasattr(self.shipment, 'comment') and self.shipment.comment:
                 notes.append(self.shipment.comment)
-            if hasattr(self.shipment, 'carrier_notes'):
+            if hasattr(self.shipment, 'carrier_notes') and self.shipment.carrier_notes:
                 notes.append(self.shipment.carrier_notes)
-        changes['note'] = '\n'.join(notes)
-        return changes
+        self.note = '\n'.join(notes)
+
+    @classmethod
+    def view_attributes(cls):
+        return super(ShipmentOutPicking, cls).view_attributes() + [
+            ('//page[@id="notes"]', 'states', {
+                    'invisible': ~Eval('note'),
+                    })]
 
 
 class ShipmentOutPickingLine(ModelView):

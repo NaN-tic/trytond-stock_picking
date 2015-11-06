@@ -10,7 +10,7 @@ The COPYRIGHT file at the top level of this repository contains the full copyrig
         <page string="Products" id="product">
             <field name="lines" colspan="6"/>
         </page>
-        <page string="Notes" id="notes" states="{'invisible': ~Eval('note')}">
+        <page string="Notes" id="notes">
             <field name="note" colspan="6"/>
         </page>
     </notebook>
