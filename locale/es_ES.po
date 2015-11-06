@@ -1,4 +1,4 @@
-# 
+#
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
@@ -21,6 +21,14 @@ msgstr "ID"
 msgctxt "field:stock.shipment.out.picking,lines:"
 msgid "Lines"
 msgstr "Líneas"
+
+msgctxt "field:stock.shipment.out.picking,note:"
+msgid "Note"
+msgstr "Nota"
+
+msgctxt "field:stock.shipment.out.picking,number_packages:"
+msgid "Number of Packages"
+msgstr "Número paquetes"
 
 msgctxt "field:stock.shipment.out.picking,shipment:"
 msgid "Shipment"
@@ -63,11 +71,11 @@ msgid "Shipment Assigned state"
 msgstr "El estado del albarán debe ser reservado"
 
 msgctxt "model:ir.action,name:act_stock_shipment_out_picking"
-msgid "Picking"
+msgid "Done Picking"
 msgstr "Empaquetado"
 
 msgctxt "model:ir.ui.menu,name:menu_stock_shipment_out_picking"
-msgid "Picking"
+msgid "Done Picking"
 msgstr "Empaquetar"
 
 msgctxt "model:stock.shipment.out.picking,name:"
@@ -95,8 +103,16 @@ msgid "Successfully packed shipment"
 msgstr "Se ha empaquetado el albarán"
 
 msgctxt "view:stock.shipment.out.picking:"
-msgid "Shipment Out Picking"
-msgstr "Empaquetado albarán cliente"
+msgid "Done Picking Shipment Out"
+msgstr "Finalizar empaquetado albarán de cliente"
+
+msgctxt "view:stock.shipment.out.picking:"
+msgid "Notes"
+msgstr "Notas"
+
+msgctxt "view:stock.shipment.out.picking:"
+msgid "Products"
+msgstr "Productos"
 
 msgctxt "wizard_button:stock.shipment.out.packed,picking,end:"
 msgid "Cancel"
