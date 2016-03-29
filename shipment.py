@@ -10,10 +10,10 @@ from trytond.pyson import Eval
 
 __all__ = ['ShipmentOut', 'ShipmentOutPicking', 'ShipmentOutPickingLine',
     'ShipmentOutPickingResult', 'ShipmentOutPacked']
-__metaclass__ = PoolMeta
 
 
 class ShipmentOut:
+    __metaclass__ = PoolMeta
     __name__ = 'stock.shipment.out'
 
     def picking_before(self):
