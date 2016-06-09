@@ -35,7 +35,11 @@ class ShipmentOutPicking(ModelView):
     lines = fields.One2Many('stock.shipment.out.picking.line', 'shipment',
         'Lines')
     number_packages = fields.Integer('Number of Packages')
-    note = fields.Text('Note', readonly=True)
+    note = fields.Text('Note', readonly=True,
+        states={
+            'invisible': ~Eval('note'),
+            },
+        )
 
     @staticmethod
     def default_number_packages():
@@ -50,13 +54,6 @@ class ShipmentOutPicking(ModelView):
             if hasattr(self.shipment, 'carrier_notes') and self.shipment.carrier_notes:
                 notes.append(self.shipment.carrier_notes)
         self.note = '\n'.join(notes)
-
-    @classmethod
-    def view_attributes(cls):
-        return super(ShipmentOutPicking, cls).view_attributes() + [
-            ('//page[@id="notes"]', 'states', {
-                    'invisible': ~Eval('note'),
-                    })]
 
 
 class ShipmentOutPickingLine(ModelView):
