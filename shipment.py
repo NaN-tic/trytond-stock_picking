@@ -210,8 +210,6 @@ class ShipmentOutScanningStart(ModelView):
     'Shipment Out Scanning Start'
     __name__ = 'stock.shipment.out.scanning.start'
     code = fields.Char('Product', required=True)
-    # carrier = fields.Boolean('Carrier',
-    #     help='Send shipment to API carrier')
     shipments = fields.Many2Many('stock.shipment.out', None, None,
         'Shipments', domain=[('state', '=', 'assigned')],
         order=[('planned_date', 'ASC')])
@@ -222,8 +220,6 @@ class ShipmentOutScanningResult(ModelView):
     __name__ = 'stock.shipment.out.scanning.result'
     shipment = fields.Many2One('stock.shipment.out', 'Shipment', readonly=True)
     note = fields.Text('Note', readonly=True)
-    # label = fields.Binary('Label', filename='label_name')
-    # label_name = fields.Char('Label Name')
 
 
 class ShipmentOutScanning(Wizard):
