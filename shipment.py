@@ -1,5 +1,5 @@
 #This file is part stock_picking module for Tryton.
-#The COPYRIGHT file at the top level of this repository contains 
+#The COPYRIGHT file at the top level of this repository contains
 #the full copyright notices and license terms.
 from trytond.model import ModelView, fields
 from trytond.wizard import Wizard, StateTransition, StateView, Button
@@ -9,11 +9,12 @@ from trytond.pyson import Eval
 
 
 __all__ = ['ShipmentOut', 'ShipmentOutPicking', 'ShipmentOutPickingLine',
-    'ShipmentOutPickingResult', 'ShipmentOutPacked']
-__metaclass__ = PoolMeta
+    'ShipmentOutPickingResult', 'ShipmentOutPacked',
+    'ShipmentOutScanningStart', 'ShipmentOutScanningResult', 'ShipmentOutScanning']
 
 
 class ShipmentOut:
+    __metaclass__ = PoolMeta
     __name__ = 'stock.shipment.out'
 
     def picking_before(self):
@@ -91,7 +92,7 @@ class ShipmentOutPacked(Wizard):
     __name__ = 'stock.shipment.out.packed'
     start = StateTransition()
     picking = StateView('stock.shipment.out.picking',
-        'stock_picking.stock_shipment_out_picking', [
+        'stock_picking.stock_shipment_out_picking_start', [
             Button('Cancel', 'end', 'tryton-cancel'),
             Button('Picking', 'packed', 'tryton-ok', True),
             ])
@@ -150,7 +151,7 @@ class ShipmentOutPacked(Wizard):
         unknow_error = False
         for k, v in outgoing_moves.iteritems():
             if not k in picking_moves:
-                products = [move.product.rec_name for move in shipment.outgoing_moves 
+                products = [move.product.rec_name for move in shipment.outgoing_moves
                     if move.product.id == k]
                 if products:
                     self.raise_user_error('not_product', {
@@ -158,7 +159,7 @@ class ShipmentOutPacked(Wizard):
                             })
                 unknow_error = True
             if not v == picking_moves[k]:
-                products = [move.product.rec_name for move in shipment.outgoing_moves 
+                products = [move.product.rec_name for move in shipment.outgoing_moves
                     if move.product.id == k]
                 if products:
                     self.raise_user_error('not_quantity', {
@@ -197,6 +198,115 @@ class ShipmentOutPacked(Wizard):
                     'shipment': shipment.id,
                     }
         return {}
+
+    def default_result(self, fields):
+        return {
+            'shipment': self.result.shipment.id,
+            'note': self.result.note,
+            }
+
+
+class ShipmentOutScanningStart(ModelView):
+    'Shipment Out Scanning Start'
+    __name__ = 'stock.shipment.out.scanning.start'
+    code = fields.Char('Product', required=True)
+    # carrier = fields.Boolean('Carrier',
+    #     help='Send shipment to API carrier')
+    shipments = fields.Many2Many('stock.shipment.out', None, None,
+        'Shipments', domain=[('state', '=', 'assigned')],
+        order=[('planned_date', 'ASC')])
+
+
+class ShipmentOutScanningResult(ModelView):
+    'Shipment Out Scanning Result'
+    __name__ = 'stock.shipment.out.scanning.result'
+    shipment = fields.Many2One('stock.shipment.out', 'Shipment', readonly=True)
+    note = fields.Text('Note', readonly=True)
+    # label = fields.Binary('Label', filename='label_name')
+    # label_name = fields.Char('Label Name')
+
+
+class ShipmentOutScanning(Wizard):
+    'Shipment Out Scanning'
+    __name__ = 'stock.shipment.out.scanning'
+    start = StateView('stock.shipment.out.scanning.start',
+        'stock_picking.stock_shipment_out_scanning_start', [
+            Button('Cancel', 'end', 'tryton-cancel'),
+            Button('Picking', 'packed', 'tryton-ok', default=True),
+        ])
+    packed = StateTransition()
+    result = StateView('stock.shipment.out.scanning.result',
+        'stock_picking.stock_shipment_out_scanning_result', [
+            Button('New picking', 'start', 'tryton-go-next', True),
+            Button('Done', 'end', 'tryton-ok'),
+        ])
+
+    @classmethod
+    def __setup__(cls):
+        super(ShipmentOutScanning, cls).__setup__()
+        cls._error_messages.update({
+            'product_not_found': 'Not found "%s" product',
+            })
+
+    def search_product(self):
+        Product = Pool().get('product.product')
+
+        code = self.start.code
+        products = Product.search(['OR',
+                ('name', '=', code),
+                ('code', '=', code),
+                ], limit=1)
+        if products:
+            return products[0]
+
+    def transition_packed(self):
+        pool = Pool()
+        ShipmentOut = pool.get('stock.shipment.out')
+        ShipmentOutScanningStart = pool.get('stock.shipment.out.scanning.start')
+
+        product = self.search_product()
+        if not product:
+            self.raise_user_error('product_not_found', (self.start.code,))
+
+        def picking_shipment(shipments):
+            for shipment in shipments:
+                if len(shipment.outgoing_moves) > 1:
+                    continue
+                for move in shipment.outgoing_moves:
+                    if move.quantity > 1.0:
+                        continue
+                    if move.product == product:
+                        return shipment
+
+        if self.start.shipments:
+            shipments = self.start.shipments
+        else:
+            domain = ShipmentOutScanningStart.shipments.domain
+            shipments = ShipmentOut.search(domain,
+                        order=[('planned_date', 'ASC')])
+
+        shipment = picking_shipment(shipments)
+        if not shipment:
+            return 'start'
+        # self.start.shipments = filter(lambda x: x != shipment,
+        #     self.start.shipments)
+
+        # Change new state: assigned to packed
+        ShipmentOut.pack([shipment])
+        shipment.picking_after()
+        ShipmentOut.done([shipment])
+
+        note = None
+        if hasattr(shipment, 'carrier_notes'):
+            note = '%s\n' % shipment.carrier_notes
+        self.result.note = note
+        self.result.shipment = shipment
+        return 'result'
+
+    def default_start(self, fields):
+        return {
+            'shipments': None,
+            }
 
     def default_result(self, fields):
         return {
