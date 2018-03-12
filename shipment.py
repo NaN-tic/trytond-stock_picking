@@ -7,7 +7,6 @@ from trytond.pool import Pool, PoolMeta
 from trytond.transaction import Transaction
 from trytond.pyson import Eval
 
-
 __all__ = ['ShipmentOut', 'ShipmentOutPicking', 'ShipmentOutPickingLine',
     'ShipmentOutPickingResult', 'ShipmentOutPacked',
     'ShipmentOutScanningStart', 'ShipmentOutScanningResult', 'ShipmentOutScanning']
@@ -63,10 +62,11 @@ class ShipmentOutPickingLine(ModelView):
     shipment = fields.Many2One('stock.shipment.out.picking', 'Shipment Out',
         required=True)
     product_domain = fields.Function(fields.One2Many('product.product', None,
-            'Product Domain'), 'on_change_with_product_domain')
+        'Product Domain'), 'on_change_with_product_domain')
     product = fields.Many2One('product.product', 'Product',
-        domain=[('id', 'in', Eval('product_domain'))],
-        depends=['product_domain'])
+        domain=[
+            ('id', 'in', Eval('product_domain')),
+        ], depends=['product_domain'])
     quantity = fields.Float('Quantity', digits=(16, 2))
 
     @fields.depends('shipment')
@@ -209,10 +209,11 @@ class ShipmentOutPacked(Wizard):
 class ShipmentOutScanningStart(ModelView):
     'Shipment Out Scanning Start'
     __name__ = 'stock.shipment.out.scanning.start'
-    code = fields.Char('Product', required=True)
-    shipments = fields.Many2Many('stock.shipment.out', None, None,
-        'Shipments', domain=[('state', '=', 'assigned')],
-        order=[('planned_date', 'ASC')])
+    product = fields.Many2One('product.product', 'Product', required=True)
+    shipments = fields.Many2Many('stock.shipment.out', None, None, 'Shipments',
+        domain=[
+            ('state', '=', 'assigned'),
+        ], order=[('planned_date', 'ASC')])
 
 
 class ShipmentOutScanningResult(ModelView):
@@ -237,38 +238,17 @@ class ShipmentOutScanning(Wizard):
             Button('Done', 'end', 'tryton-ok'),
         ])
 
-    @classmethod
-    def __setup__(cls):
-        super(ShipmentOutScanning, cls).__setup__()
-        cls._error_messages.update({
-            'product_not_found': 'Not found "%s" product',
-            })
-
-    def search_product(self):
-        Product = Pool().get('product.product')
-
-        code = self.start.code
-        products = Product.search(['OR',
-                ('name', '=', code),
-                ('code', '=', code),
-                ], limit=1)
-        if products:
-            return products[0]
-
     def transition_packed(self):
         pool = Pool()
         ShipmentOut = pool.get('stock.shipment.out')
         ShipmentOutScanningStart = pool.get('stock.shipment.out.scanning.start')
 
-        product = self.search_product()
-        if not product:
-            self.raise_user_error('product_not_found', (self.start.code,))
-
-        def picking_shipment(shipments):
+        def picking_shipment(product, shipments):
             for shipment in shipments:
-                if len(shipment.outgoing_moves) > 1:
+                outgoing_moves = shipment.outgoing_moves
+                if len(outgoing_moves) > 1:
                     continue
-                for move in shipment.outgoing_moves:
+                for move in outgoing_moves:
                     if move.quantity > 1.0:
                         continue
                     if move.product == product:
@@ -278,10 +258,11 @@ class ShipmentOutScanning(Wizard):
             shipments = self.start.shipments
         else:
             domain = ShipmentOutScanningStart.shipments.domain
-            shipments = ShipmentOut.search(domain,
-                        order=[('planned_date', 'ASC')])
+            shipments = ShipmentOut.search(
+                domain,
+                order=[('planned_date', 'ASC')])
 
-        shipment = picking_shipment(shipments)
+        shipment = picking_shipment(self.start.product, shipments)
         if not shipment:
             return 'start'
         # self.start.shipments = filter(lambda x: x != shipment,
@@ -293,7 +274,7 @@ class ShipmentOutScanning(Wizard):
         ShipmentOut.done([shipment])
 
         note = None
-        if hasattr(shipment, 'carrier_notes'):
+        if hasattr(shipment, 'carrier_notes') and shipment.carrier_notes:
             note = '%s\n' % shipment.carrier_notes
         self.result.note = note
         self.result.shipment = shipment
