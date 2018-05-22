@@ -3,10 +3,11 @@
 The COPYRIGHT file at the top level of this repository contains the full copyright notices and license terms. -->
 <tryton>
     <data>
-        <record model="ir.ui.view" id="stock_shipment_out_picking">
+        <!-- Stock Shipment Out Picking -->
+        <record model="ir.ui.view" id="stock_shipment_out_picking_start">
             <field name="model">stock.shipment.out.picking</field>
             <field name="type">form</field>
-            <field name="name">stock_shipment_out_picking</field>
+            <field name="name">stock_shipment_out_picking_start</field>
         </record>
 
         <record model="ir.ui.view" id="stock_shipment_out_picking_line_tree_view">
@@ -31,10 +32,34 @@ The COPYRIGHT file at the top level of this repository contains the full copyrig
             <field name="wiz_name">stock.shipment.out.packed</field>
         </record>
         <menuitem
-            name="Done Picking" 
+            name="Done Picking"
             parent="stock.menu_shipment_out_form"
             action="act_stock_shipment_out_picking"
             id="menu_stock_shipment_out_picking"
+            sequence="50"/>
+
+        <!-- Stock Shipment Out Scanning -->
+        <record model="ir.ui.view" id="stock_shipment_out_scanning_start">
+            <field name="model">stock.shipment.out.scanning.start</field>
+            <field name="type">form</field>
+            <field name="name">stock_shipment_out_scanning_start</field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_shipment_out_scanning_result">
+            <field name="model">stock.shipment.out.scanning.result</field>
+            <field name="type">form</field>
+            <field name="name">stock_shipment_out_scanning_result</field>
+        </record>
+
+        <record model="ir.action.wizard" id="act_stock_shipment_out_scanning">
+            <field name="name">Product Scanning</field>
+            <field name="wiz_name">stock.shipment.out.scanning</field>
+        </record>
+        <menuitem
+            name="Product Scanning"
+            parent="stock.menu_shipment_out_form"
+            action="act_stock_shipment_out_scanning"
+            id="menu_stock_shipment_out_scanning"
             sequence="50"/>
 
         <!-- Stock Shipment Out -->
