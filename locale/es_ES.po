@@ -66,6 +66,30 @@ msgctxt "field:stock.shipment.out.picking.result,shipment:"
 msgid "Shipment"
 msgstr "Albarán"
 
+msgctxt "field:stock.shipment.out.scanning.result,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:stock.shipment.out.scanning.result,note:"
+msgid "Note"
+msgstr "Nota"
+
+msgctxt "field:stock.shipment.out.scanning.result,shipment:"
+msgid "Shipment"
+msgstr "Albarán"
+
+msgctxt "field:stock.shipment.out.scanning.start,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:stock.shipment.out.scanning.start,product:"
+msgid "Product"
+msgstr "Producto"
+
+msgctxt "field:stock.shipment.out.scanning.start,shipments:"
+msgid "Shipments"
+msgstr "Albaranes"
+
 msgctxt "help:stock.shipment.out.picking,shipment:"
 msgid "Shipment Assigned state"
 msgstr "El estado del albarán debe ser reservado"
@@ -74,9 +98,17 @@ msgctxt "model:ir.action,name:act_stock_shipment_out_picking"
 msgid "Done Picking"
 msgstr "Empaquetado"
 
+msgctxt "model:ir.action,name:act_stock_shipment_out_scanning"
+msgid "Product Scanning"
+msgstr "Escaneo de productos"
+
 msgctxt "model:ir.ui.menu,name:menu_stock_shipment_out_picking"
 msgid "Done Picking"
 msgstr "Empaquetar"
+
+msgctxt "model:ir.ui.menu,name:menu_stock_shipment_out_scanning"
+msgid "Product Scanning"
+msgstr "Escaneo de productos"
 
 msgctxt "model:stock.shipment.out.picking,name:"
 msgid "Shipment Out Picking"
@@ -89,6 +121,14 @@ msgstr "Línea empaquetado albarán cliente"
 msgctxt "model:stock.shipment.out.picking.result,name:"
 msgid "Shipment Out Picking Result"
 msgstr "Resultado empaquetado albarán cliente"
+
+msgctxt "model:stock.shipment.out.scanning.result,name:"
+msgid "Shipment Out Scanning Result"
+msgstr "Resultado de escaneo de albarán cliente"
+
+msgctxt "model:stock.shipment.out.scanning.start,name:"
+msgid "Shipment Out Scanning Start"
+msgstr "Inicio de escaneo de albarán cliente"
 
 msgctxt "view:stock.shipment.out.picking.line:"
 msgid "Shipment Out Picking"
@@ -107,12 +147,24 @@ msgid "Done Picking Shipment Out"
 msgstr "Finalizar empaquetado albarán de cliente"
 
 msgctxt "view:stock.shipment.out.picking:"
-msgid "Notes"
-msgstr "Notas"
-
-msgctxt "view:stock.shipment.out.picking:"
 msgid "Products"
 msgstr "Productos"
+
+msgctxt "view:stock.shipment.out.scanning.result:"
+msgid "Shipment Out Scanning Result"
+msgstr "Resultado de escaneo de albarán cliente"
+
+msgctxt "view:stock.shipment.out.scanning.result:"
+msgid "Successfully packed shipment"
+msgstr "Se ha empaquetado el albarán"
+
+msgctxt "view:stock.shipment.out.scanning.start:"
+msgid "Product Scanning"
+msgstr "Escaneo de productos"
+
+msgctxt "view:stock.shipment.out.scanning.start:"
+msgid "Shipments"
+msgstr "Albaranes"
 
 msgctxt "wizard_button:stock.shipment.out.packed,picking,end:"
 msgid "Cancel"
@@ -129,3 +181,19 @@ msgstr "Realizado"
 msgctxt "wizard_button:stock.shipment.out.packed,result,picking:"
 msgid "New picking"
 msgstr "Nuevo empaquetado"
+
+msgctxt "wizard_button:stock.shipment.out.scanning,result,end:"
+msgid "Done"
+msgstr "Realizado"
+
+msgctxt "wizard_button:stock.shipment.out.scanning,result,start:"
+msgid "New picking"
+msgstr "Nuevo empaquetado"
+
+msgctxt "wizard_button:stock.shipment.out.scanning,start,end:"
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgctxt "wizard_button:stock.shipment.out.scanning,start,packed:"
+msgid "Picking"
+msgstr "Recogida"
