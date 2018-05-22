@@ -198,4 +198,4 @@ msgstr "Cancel·la"
 
 msgctxt "wizard_button:stock.shipment.out.scanning,start,packed:"
 msgid "Picking"
-msgstr "Recollida"
+msgstr "Empaquetament"
