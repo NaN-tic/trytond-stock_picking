@@ -100,7 +100,7 @@ msgstr "Empaquetado"
 
 msgctxt "model:ir.action,name:act_stock_shipment_out_scanning"
 msgid "Product Scanning"
-msgstr "Escaneo de productos"
+msgstr "Escanear productos"
 
 msgctxt "model:ir.ui.menu,name:menu_stock_shipment_out_picking"
 msgid "Done Picking"
@@ -108,7 +108,7 @@ msgstr "Empaquetar"
 
 msgctxt "model:ir.ui.menu,name:menu_stock_shipment_out_scanning"
 msgid "Product Scanning"
-msgstr "Escaneo de productos"
+msgstr "Escanear productos"
 
 msgctxt "model:stock.shipment.out.picking,name:"
 msgid "Shipment Out Picking"
