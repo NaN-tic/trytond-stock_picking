@@ -2,15 +2,18 @@
 #The COPYRIGHT file at the top level of this repository contains
 #the full copyright notices and license terms.
 from trytond.pool import Pool
-from .shipment import *
+from . import shipment
 
 def register():
     Pool.register(
-        ShipmentOut,
-        ShipmentOutPicking,
-        ShipmentOutPickingLine,
-        ShipmentOutPickingResult,
+        shipment.ShipmentOut,
+        shipment.ShipmentOutPicking,
+        shipment.ShipmentOutPickingLine,
+        shipment.ShipmentOutPickingResult,
+        shipment.ShipmentOutScanningStart,
+        shipment.ShipmentOutScanningResult,
         module='stock_picking', type_='model')
     Pool.register(
-        ShipmentOutPacked,
+        shipment.ShipmentOutPacked,
+        shipment.ShipmentOutScanning,
         module='stock_picking', type_='wizard')
