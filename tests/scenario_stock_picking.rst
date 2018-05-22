@@ -25,8 +25,9 @@ Create database::
 Install stock Module::
 
     >>> Module = Model.get('ir.module')
-    >>> modules = Module.find([('name', 'in', ['sale', 'stock_picking'])])
-    >>> Module.click(modules, 'install')
+    >>> module1, module2 = Module.find([('name', 'in', ['sale', 'stock_picking'])])
+    >>> module1.click('install')
+    >>> module2.click('install')
     >>> Wizard('ir.module.install_upgrade').execute('upgrade')
 
 Create company::
