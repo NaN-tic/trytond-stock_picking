@@ -30,7 +30,7 @@ class ShipmentOutPicking(ModelView):
         states={
             'readonly': (Eval('lines', [0]) & Eval('shipment')),
             },
-        domain=[('state', '=', 'assigned')],
+        domain=[('state', 'in', ['assigned', 'packed'])],
         help="Shipment Assigned state")
     lines = fields.One2Many('stock.shipment.out.picking.line', 'shipment',
         'Lines')
