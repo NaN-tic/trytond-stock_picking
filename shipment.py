@@ -12,8 +12,7 @@ __all__ = ['ShipmentOut', 'ShipmentOutPicking', 'ShipmentOutPickingLine',
     'ShipmentOutScanningStart', 'ShipmentOutScanningResult', 'ShipmentOutScanning']
 
 
-class ShipmentOut:
-    __metaclass__ = PoolMeta
+class ShipmentOut(metaclass=PoolMeta):
     __name__ = 'stock.shipment.out'
 
     def picking_before(self):
@@ -118,7 +117,7 @@ class ShipmentOutPacked(Wizard):
 
     @classmethod
     def _shipment_data(cls, shipment, values={}):
-        for k, v in values.iteritems():
+        for k, v in values.items():
             setattr(shipment, k,  v)
         return shipment
 
@@ -149,7 +148,7 @@ class ShipmentOutPacked(Wizard):
 
         # check if product is in shipment and quantity
         unknow_error = False
-        for k, v in outgoing_moves.iteritems():
+        for k, v in outgoing_moves.items():
             if not k in picking_moves:
                 products = [move.product.rec_name for move in shipment.outgoing_moves
                     if move.product.id == k]

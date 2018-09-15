@@ -218,8 +218,8 @@ Shipment Out Scanning::
     >>> shipment2.reload()
     >>> shipment3.reload()
     >>> shipment1.state
-    u'done'
+    'done'
     >>> shipment2.state
-    u'done'
+    'done'
     >>> shipment3.state
-    u'assigned'
+    'assigned'
