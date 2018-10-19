@@ -13,15 +13,10 @@ Imports::
     ...     get_company
     >>> from trytond.modules.account.tests.tools import create_fiscalyear, \
     ...     create_chart, get_accounts, create_tax
-    >>> from.trytond.modules.account_invoice.tests.tools import \
+    >>> from trytond.modules.account_invoice.tests.tools import \
     ...     set_fiscalyear_invoice_sequences, create_payment_term
     >>> today = datetime.date.today()
     >>> yesterday = today - relativedelta(days=1)
-
-Create database::
-
-    >>> config = config.set_trytond()
-    >>> config.pool.test = True
 
 Install stock Module::
 
@@ -63,11 +58,23 @@ Create customer::
     >>> customer = Party(name='Customer')
     >>> customer.save()
 
-Create category::
+Create tax::
+
+    >>> tax = create_tax(Decimal('.10'))
+    >>> tax.save()
+
+Create account categories::
 
     >>> ProductCategory = Model.get('product.category')
-    >>> category = ProductCategory(name='Category')
-    >>> category.save()
+    >>> account_category = ProductCategory(name="Account Category")
+    >>> account_category.accounting = True
+    >>> account_category.account_expense = expense
+    >>> account_category.account_revenue = revenue
+    >>> account_category.save()
+
+    >>> account_category_tax, = account_category.duplicate()
+    >>> account_category_tax.customer_taxes.append(tax)
+    >>> account_category_tax.save()
 
 Create products::
 
@@ -75,35 +82,27 @@ Create products::
     >>> ProductTemplate = Model.get('product.template')
     >>> Product = Model.get('product.product')
     >>> unit, = ProductUom.find([('name', '=', 'Unit')])
-    >>> product1 = Product()
     >>> template = ProductTemplate()
     >>> template.name = 'Product'
-    >>> template.category = category
     >>> template.default_uom = unit
     >>> template.type = 'goods'
     >>> template.list_price = Decimal('20')
-    >>> template.cost_price = Decimal('8')
     >>> template.salable = True
-    >>> template.account_expense = expense
-    >>> template.account_revenue = revenue
+    >>> template.account_category = account_category_tax
     >>> template.save()
-    >>> product1.template = template
+    >>> product1, = template.products
     >>> product1.code = 'P1'
     >>> product1.save()
 
-    >>> product2 = Product()
     >>> template = ProductTemplate()
     >>> template.name = 'Product'
-    >>> template.category = category
     >>> template.default_uom = unit
     >>> template.type = 'goods'
     >>> template.list_price = Decimal('20')
-    >>> template.cost_price = Decimal('8')
     >>> template.salable = True
-    >>> template.account_expense = expense
-    >>> template.account_revenue = revenue
+    >>> template.account_category = account_category_tax
     >>> template.save()
-    >>> product2.template = template
+    >>> product2, = template.products
     >>> product2.code = 'P2'
     >>> product2.save()
 
