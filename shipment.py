@@ -115,10 +115,8 @@ class ShipmentOutPacked(Wizard):
     def transition_start(self):
         return 'picking'
 
-    @classmethod
-    def _shipment_data(cls, shipment, values={}):
-        for k, v in values.items():
-            setattr(shipment, k,  v)
+    def set_shipment(self, shipment):
+        shipment.number_packages = self.picking.number_packages or 1
         return shipment
 
     def transition_packed(self):
@@ -169,9 +167,7 @@ class ShipmentOutPacked(Wizard):
         if unknow_error:
             self.raise_user_error('unknow_error')
 
-        shipment = self._shipment_data(shipment, {
-            'number_packages': self.picking.number_packages or 1,
-            })
+        shipment = self.set_shipment(shipment)
         shipment.save()
 
         # Change new state: assigned to packed
@@ -237,6 +233,9 @@ class ShipmentOutScanning(Wizard):
             Button('Done', 'end', 'tryton-ok'),
         ])
 
+    def set_shipment(self, shipment):
+        return shipment
+
     def transition_packed(self):
         pool = Pool()
         ShipmentOut = pool.get('stock.shipment.out')
@@ -266,6 +265,9 @@ class ShipmentOutScanning(Wizard):
             return 'start'
         # self.start.shipments = filter(lambda x: x != shipment,
         #     self.start.shipments)
+
+        shipment = self.set_shipment(shipment)
+        shipment.save()
 
         # Change new state: assigned to packed
         ShipmentOut.pack([shipment])
