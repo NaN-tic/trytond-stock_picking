@@ -268,6 +268,13 @@ class ShipmentOutScanning(Wizard):
         # self.start.shipments = filter(lambda x: x != shipment,
         #     self.start.shipments)
 
+        # NOT REMOVE: The wizard, with the cache tryton work is not send the
+        #   'shipment' alone it sned the all shipments, when need that it
+        #   will be alone to improve in the speed. This is needed for the
+        #   functional fields getter.
+        #   Whith this extra browse, produce a cleaning cache.
+        shipment = ShipmentOut(shipment.id)
+
         # Change new state: assigned to packed
         ShipmentOut.pack([shipment])
         shipment.picking_after()
