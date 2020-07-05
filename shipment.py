@@ -6,6 +6,8 @@ from trytond.wizard import Wizard, StateTransition, StateView, Button
 from trytond.pool import Pool, PoolMeta
 from trytond.transaction import Transaction
 from trytond.pyson import Eval
+from trytond.i18n import gettext
+from trytond.exceptions import UserError
 
 __all__ = ['ShipmentOut', 'ShipmentOutPicking', 'ShipmentOutPickingLine',
     'ShipmentOutPickingResult', 'ShipmentOutPacked',
@@ -68,7 +70,7 @@ class ShipmentOutPickingLine(ModelView):
         ], depends=['product_domain'])
     quantity = fields.Float('Quantity', digits=(16, 2))
 
-    @fields.depends('shipment')
+    @fields.depends('shipment', '_parent_shipment.shipment')
     def on_change_with_product_domain(self, name=None):
         if not self.shipment or not self.shipment.shipment:
             return []
@@ -101,16 +103,6 @@ class ShipmentOutPacked(Wizard):
             Button('New picking', 'picking', 'tryton-go-next', True),
             Button('Done', 'end', 'tryton-ok'),
             ])
-
-    @classmethod
-    def __setup__(cls):
-        super(ShipmentOutPacked, cls).__setup__()
-        cls._error_messages.update({
-            'not_product': 'Missing product "%(product)s" in shipment',
-            'not_quantity': 'Does not match the quantity. Qty "%(product)s" '
-                'is "%(quantity)s"',
-            'unknow_error': 'Unknown error. Try again to picking the shipment',
-        })
 
     def transition_start(self):
         return 'picking'
@@ -151,21 +143,19 @@ class ShipmentOutPacked(Wizard):
                 products = [move.product.rec_name for move in shipment.outgoing_moves
                     if move.product.id == k]
                 if products:
-                    self.raise_user_error('not_product', {
-                            'product': products[0],
-                            })
+                    raise UserError(gettext('stock_picking.msg_not_product',
+                        product=products[0]))
                 unknow_error = True
             if not v == picking_moves[k]:
                 products = [move.product.rec_name for move in shipment.outgoing_moves
                     if move.product.id == k]
                 if products:
-                    self.raise_user_error('not_quantity', {
-                            'product': products[0],
-                            'quantity': v,
-                            })
+                    raise UserError(gettext('stock_picking.msg_not_quantity',
+                        product=products[0],
+                        quantity=v))
                 unknow_error = True
         if unknow_error:
-            self.raise_user_error('unknow_error')
+            raise UserError(gettext('stock_picking.msg_unknow_error'))
 
         shipment = self.set_shipment(shipment)
         shipment.save()

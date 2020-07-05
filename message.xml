@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- This file is part of Tryton.  The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<tryton>
+    <data grouped="1">
+        <record model="ir.message" id="msg_not_product">
+            <field name="text">Missing product "%(product)s" in shipment</field>
+        </record>
+        <record model="ir.message" id="msg_not_quantity">
+            <field name="text">Does not match the quantity. Qty "%(product)s" is "%(quantity)s"</field>
+        </record>
+        <record model="ir.message" id="msg_unknow_error">
+            <field name="text">Unknown error. Try again to picking the shipment</field>
+        </record>
+    </data>
+</tryton>
